@@ -1,7 +1,7 @@
 package org.iesalandalus.programacion.matriculacion;
 
-import org.iesalandalus.programacion.matriculacion.dominio.*;
-import org.iesalandalus.programacion.matriculacion.negocio.*;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.*;
+import org.iesalandalus.programacion.matriculacion.modelo.negocio.*;
 import org.iesalandalus.programacion.matriculacion.vista.*;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
@@ -62,7 +62,7 @@ public class MainApp {
 
         // Esto es para que tenga que presionar el usuario por cada opcion
         Opcion opcionElegida;
-        Scanner neme = new Scanner(System.in);
+        Scanner press = new Scanner(System.in);
 
         //Datos prueba
         datosInicio();
@@ -73,7 +73,7 @@ public class MainApp {
             ejecutarOpcion(opcionElegida);
 
             System.out.println("\n\t\tPRESIONE ENTER PARA CONTINUAR..."); //Mensaje en pantalla
-            neme.nextLine();
+            press.nextLine();
         }while (!opcionElegida.equals(Opcion.SALIR));
 
         System.out.println("Hasta luego Lucas!!!!");
@@ -109,8 +109,6 @@ public class MainApp {
             case MOSTRAR_MATRICULAS_POR_CICLO_FORMATIVO -> mostrarMatriculasPorCicloFormativo();
             case MOSTRAR_MATRICULAS_POR_CURSO_ACADEMICO -> mostrarMatriculasPorCursoAcademico();
             case ANULAR_MATRICULA -> anularMatricula();
-
-            case null, default -> throw new IllegalArgumentException("ERROR: Opcion incorrecta");
         }
     }
 

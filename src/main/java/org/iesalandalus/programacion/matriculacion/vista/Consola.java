@@ -1,9 +1,7 @@
 package org.iesalandalus.programacion.matriculacion.vista;
 
-import com.sun.source.doctree.SystemPropertyTree;
-import org.iesalandalus.programacion.matriculacion.MainApp;
-import org.iesalandalus.programacion.matriculacion.dominio.*;
-import org.iesalandalus.programacion.matriculacion.negocio.*;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.*;
+import org.iesalandalus.programacion.matriculacion.modelo.negocio.*;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import javax.naming.OperationNotSupportedException;

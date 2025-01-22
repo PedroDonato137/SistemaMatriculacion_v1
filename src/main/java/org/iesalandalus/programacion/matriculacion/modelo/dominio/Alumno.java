@@ -1,10 +1,7 @@
-package org.iesalandalus.programacion.matriculacion.dominio;
-
-import com.sun.jdi.event.BreakpointEvent;
+package org.iesalandalus.programacion.matriculacion.modelo.dominio;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
