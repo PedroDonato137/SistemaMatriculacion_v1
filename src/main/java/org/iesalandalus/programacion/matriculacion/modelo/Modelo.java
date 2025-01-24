@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.matriculacion.modelo;
 
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.*;
 import org.iesalandalus.programacion.matriculacion.modelo.negocio.*;
+import org.iesalandalus.programacion.matriculacion.vista.Vista;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
@@ -13,10 +14,11 @@ public class Modelo {
     public static final int CAPACIDAD = 3;
 
     //Atributos de la clase
-    private static Alumnos alumnos = new Alumnos(CAPACIDAD);
-    private static Matriculas matriculas = new Matriculas(CAPACIDAD);
-    private static Asignaturas asignaturas = new Asignaturas(CAPACIDAD);
-    private static CiclosFormativos cicloFormativos = new CiclosFormativos(CAPACIDAD);
+    private static Alumnos alumnos;
+    private static Matriculas matriculas;
+    private static Asignaturas asignaturas;
+    private static CiclosFormativos cicloFormativos;
+
 
 
     // Datos ficticios(Borrar)
@@ -54,12 +56,16 @@ public class Modelo {
     }
 
 
-    public static void comenzar() throws OperationNotSupportedException {
+    public void comenzar() throws OperationNotSupportedException {
+        alumnos = new Alumnos(CAPACIDAD);
+        matriculas = new Matriculas(CAPACIDAD);
+        asignaturas = new Asignaturas(CAPACIDAD);
+        cicloFormativos = new CiclosFormativos(CAPACIDAD);
         datosInicio();
     }
 
     public static void terminar(){
-
+        System.out.println("Cerramos el Modelo");
     }
 
     /*---------------------------------------------------------------------------------------------------------------*/

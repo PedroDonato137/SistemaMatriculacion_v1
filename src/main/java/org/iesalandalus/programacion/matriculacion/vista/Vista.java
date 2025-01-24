@@ -1,7 +1,6 @@
 package org.iesalandalus.programacion.matriculacion.vista;
 
 import org.iesalandalus.programacion.matriculacion.Controlador.Controlador;
-import org.iesalandalus.programacion.matriculacion.modelo.Modelo;
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.Asignatura;
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.CicloFormativo;
@@ -16,7 +15,9 @@ public class Vista {
 
     public void setController(Controlador controller)
     {
-        this.controller = controller;
+        if(controller != null) {
+            this.controller = controller;
+        }
     }
 
     public void comenzar() throws OperationNotSupportedException {
@@ -118,15 +119,16 @@ public class Vista {
     /*---------------------------------------------------------------------------------------------------------------*/
 
     private static void insertarAsignatura(){
+        CicloFormativo cicloFormativoAsignatura = Consola.getCicloFormativoPorCodigo();
+        CicloFormativo ciclosExistentes = controller.buscar(cicloFormativoAsignatura);
 
-        if(cicloFormativos == null){
-            throw new IllegalArgumentException("ERROR: No existen ningun Ciclo Formativo");
+        if (ciclosExistentes != null) {
+            Asignatura asignatura = new Asignatura(Consola.leerAsignatura(ciclosExistentes));
+            controller.insertar(asignatura);
+            System.out.println("Asignatura insertada correctamente");
+        }else{
+            System.out.println("No se ha podido ingresar la asignatura");
         }
-
-        Asignatura asignatura = new Asignatura(Consola.leerAsignatura(cicloFormativos));
-
-        controller.insertar(asignatura);
-        System.out.println("Asignatura insertada correctamente");
     }
 
     private static void buscarAsignatura(){
@@ -155,7 +157,6 @@ public class Vista {
     /*---------------------------------------------------------------------------------------------------------------*/
     /*----------------------------------------- CICLOS FORMATIVOS ---------------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------------------*/
-
     private static void insertarCicloFormativo(){
 
         CicloFormativo cicloFormativo = new CicloFormativo(Consola.leerCicloFormativo());
@@ -195,7 +196,19 @@ public class Vista {
 
     private static void insertarMatricula() throws OperationNotSupportedException {
 
-        Matricula matricula = new Matricula(Consola.leerMatricula(alumnos, asignaturas));
+        // Conseguir el usuario
+        Alumno alumnoMatriculado = Consola.getAlumnoPorDni();
+        Alumno alumnoExistente = controller.buscar(alumnoMatriculado);
+
+        // Conseguir las asignaturas
+        Asignatura[] asignaturasRegistradas = controller.getAsignaturas();
+        if (asignaturasRegistradas == null){
+            throw new IllegalArgumentException("ERROR: No existen asignaturas registradas");
+        }
+
+        Asignatura[] asignaturasMatricula = Consola.elegirAsignaturasMatricula(asignaturasRegistradas);
+
+        Matricula matricula = new Matricula(Consola.leerMatricula(alumnoExistente, asignaturasMatricula));
 
         controller.insertar(matricula);
         System.out.println("Matricula insertado correctamente");

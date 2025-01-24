@@ -10,29 +10,27 @@ public class Controlador {
 
     private Modelo modelo;
     private Vista vista;
-    private boolean isRun;
 
     public Controlador(Modelo modelo, Vista vista)
     {
         this.modelo = modelo;
         this.vista = vista;
-        this.isRun = false;
+
 
         this.vista.setController(this);
     }
 
     public void comenzar() throws OperationNotSupportedException {
         System.out.println("Iniciamos el controlador");
-        this.isRun = true;
-        this.vista.comenzar();
         this.modelo.comenzar();
+        this.vista.comenzar();
+
     }
 
     public void terminar()
     {
-        this.vista.terminar();
         this.modelo.terminar();
-        this.isRun = false;
+        this.vista.terminar();
         System.out.println("Cerramos el controlador");
     }
 

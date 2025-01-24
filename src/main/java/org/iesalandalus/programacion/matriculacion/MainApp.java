@@ -13,10 +13,11 @@ public class MainApp {
 
         System.out.println("Iniciamos la aplicación...");
 
-        Modelo m = new Modelo();
-        Vista v = new Vista();
-        Controlador c = new Controlador(m,v);
-        c.comenzar();
+        Modelo modelo = new Modelo();
+        Vista vista = new Vista();
+        Controlador controlador = new Controlador(modelo,vista);
+
+        controlador.comenzar();
 
         System.out.println("Cerramos la aplicación...");
     }

@@ -1,9 +1,7 @@
 package org.iesalandalus.programacion.matriculacion.vista;
 
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.*;
-import org.iesalandalus.programacion.matriculacion.modelo.negocio.*;
 import org.iesalandalus.programacion.utilidades.Entrada;
-
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -235,11 +233,12 @@ public class Consola {
         return EspecialidadProfesorado.values()[opcionEspecialidad];
     }
 
+
     /*---------------------------------------------------------------------------------------------------------------*/
     /*---------------------------------------------- ASIGNATURAS ----------------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------------------*/
 
-    public static Asignatura leerAsignatura(CiclosFormativos cicloFormativos){
+    public static Asignatura leerAsignatura(CicloFormativo cicloFormativo){
 
         String codigoAsignatura;
         String nombreAsignatura;
@@ -278,22 +277,9 @@ public class Consola {
 
         especialidadProfesoradoAsignatura = Consola.leerEspecialidadProfesorado();
 
-        //Ciclo Formativo
-        cicloFormativoAsignatura = getCicloFormativoPorCodigo(); // Creo un ciclo formativo solo con el codigo
-        CicloFormativo[] ciclosExistentes = cicloFormativos.get(); // Recupero los ciclos formativos que existen
+        nuevaAsignatura = new Asignatura(codigoAsignatura, nombreAsignatura, horasAnualesAsignatura, cursoAsignatura, horasDesdobleAsignatura, especialidadProfesoradoAsignatura, cicloFormativo);
+        return new Asignatura(nuevaAsignatura);
 
-        for (CicloFormativo ciclosExistente : ciclosExistentes) {
-            if (ciclosExistente.getCodigo() == cicloFormativoAsignatura.getCodigo()) {
-                cicloFormativoAsignatura = ciclosExistente;
-                existeCiclo = true;
-            }
-        }
-        if (existeCiclo) {
-            nuevaAsignatura = new Asignatura(codigoAsignatura, nombreAsignatura, horasAnualesAsignatura, cursoAsignatura, horasDesdobleAsignatura, especialidadProfesoradoAsignatura, cicloFormativoAsignatura);
-            return new Asignatura(nuevaAsignatura);
-        }else {
-            return null;
-        }
     }
 
     public static Asignatura getAsignaturaPorCodigo(){
@@ -332,6 +318,26 @@ public class Consola {
 
     }
 
+    public static Asignatura[] elegirAsignaturasMatricula(Asignatura[] asignaturasRegistradas){
+        // Variables auxiliales
+        Asignatura nuevaAsignaturas;
+        Asignatura[] asignaturasMatricula = new Asignatura[3];
+        int i = 0; // Varible auxiliar para las asignaturas
+
+        // Buscar Asignaturas
+        do {
+            nuevaAsignaturas = getAsignaturaPorCodigo();
+            for(Asignatura asignatura : asignaturasRegistradas){
+                if(nuevaAsignaturas.getCodigo().equalsIgnoreCase(asignatura.getCodigo())){
+                    asignaturasMatricula[i] = nuevaAsignaturas;
+                    i++;
+                }
+            }
+        } while (i < 3);
+
+        return asignaturasMatricula;
+    }
+
     /*---------------------------------------------------------------------------------------------------------------*/
     /*---------------------------------------------- MATRICULAS -----------------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------------------*/
@@ -351,19 +357,14 @@ public class Consola {
         return false; // La asignatura no está en la lista.
     }
 
-    public static Matricula leerMatricula(Alumnos alumnos, Asignaturas Asignaturas) throws OperationNotSupportedException {
+    public static Matricula leerMatricula(Alumno alumno, Asignatura[] Asignaturas) throws OperationNotSupportedException {
 
         int idMatricula;
         String cursoAcademico;
         LocalDate fechaMatriculacion;
-        Alumno alumno = null;
         Asignatura[] coleccionAsignaturas = new Asignatura[3];
 
         Matricula nuevaMatricula = null;
-
-        // Variables auxiliales
-        Asignatura nuevaAsignaturas;
-        int i = 0; // Varible auxiliar para las asignaturas
 
         do {
             System.out.print("Introduce el ID de la matricula: ");
@@ -377,35 +378,7 @@ public class Consola {
 
         fechaMatriculacion = leerFecha("Introduce la fecha de matriculación: ");
 
-        //Buscar alumno
-        Alumno alumnoBuscar = new Alumno(Consola.getAlumnoPorDni());
-        Alumno alumnoBuscado = null;
-
-        alumnoBuscado = alumnos.buscar(alumnoBuscar);
-        if (alumnoBuscado != null){
-            alumno = alumnoBuscado;
-        }
-        else{
-            System.out.println("No existe ningun alumno con ese DNI");
-        }
-
-        // Buscar Asignaturas
-        do {
-            nuevaAsignaturas = getAsignaturaPorCodigo();
-            Asignatura AsignaturaBuscada = Asignaturas.buscar(nuevaAsignaturas);
-            if(AsignaturaBuscada != null){
-                if(!asignaturaYaMatriculada(coleccionAsignaturas, nuevaAsignaturas)){
-                    coleccionAsignaturas[i] = nuevaAsignaturas;
-                    i++;
-                }else{
-                    System.out.println("Error: Ya esta matriculado en esa asignatura");
-                }
-            }else{
-                System.out.println("La asignatura no existe");
-            }
-        } while(i != 3); // He puesto que tiene que matricularse en 3 asignaturas obligatoriamente
-
-        nuevaMatricula = new Matricula(idMatricula, cursoAcademico, fechaMatriculacion, alumno, coleccionAsignaturas );
+        nuevaMatricula = new Matricula(idMatricula, cursoAcademico, fechaMatriculacion, alumno, Asignaturas );
         return new Matricula(nuevaMatricula);
     }
 
