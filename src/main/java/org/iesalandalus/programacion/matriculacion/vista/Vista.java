@@ -1,0 +1,298 @@
+package org.iesalandalus.programacion.matriculacion.vista;
+
+import org.iesalandalus.programacion.matriculacion.Controlador.Controlador;
+import org.iesalandalus.programacion.matriculacion.modelo.Modelo;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.Alumno;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.Asignatura;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.CicloFormativo;
+import org.iesalandalus.programacion.matriculacion.modelo.dominio.Matricula;
+import org.iesalandalus.programacion.utilidades.Entrada;
+
+import javax.naming.OperationNotSupportedException;
+
+public class Vista {
+
+    private static Controlador controller;
+
+    public void setController(Controlador controller)
+    {
+        this.controller = controller;
+    }
+
+    public void comenzar() throws OperationNotSupportedException {
+        Opcion opcionElegida;
+        do {
+            Consola.mostrarMenu();
+            opcionElegida = Consola.elegirOpcion();
+            ejecutarOpcion(opcionElegida);
+        } while (!opcionElegida.equals(Opcion.SALIR));
+    }
+
+    public void terminar()
+    {
+        controller.terminar();
+        System.out.println("Cerramos la vista");
+    }
+
+
+    //Metodos
+    private static void ejecutarOpcion(Opcion opcion) throws OperationNotSupportedException {
+
+        switch (opcion) {
+            //Alumnos
+            case INSERTAR_ALUMNO -> insertarAlumno();
+            case BUSCAR_ALUMNO -> buscarAlumno();
+            case BORRAR_ALUMNO -> borrarAlumno();
+            case MOSTRAR_ALUMNOS -> mostarAlumnos();
+
+            //Ciclos Formativos
+            case INSERTAR_CICLO_FORMATIVO -> insertarCicloFormativo();
+            case BUSCAR_CICLO_FORMATIVO -> buscarCicloFormativo();
+            case BORRAR_CICLO_FORMATIVO -> borrarCicloFormativo();
+            case MOSTRAR_CICLOS_FORMATIVOS -> mostarCiclosFormativos();
+
+            //Asignaturas
+            case INSERTAR_ASIGNATURA -> insertarAsignatura();
+            case BUSCAR_ASIGNATURA -> buscarAsignatura();
+            case BORRAR_ASIGNATURA -> borrarAsignatura();
+            case MOSTRAR_ASIGNATURAS -> mostrarAsignaturas();
+
+            //Matriculas
+            case INSERTAR_MATRICULA -> insertarMatricula();
+            case BUSCAR_MATRICULA -> buscarMatricula();
+            case MOSTRAR_MATRICULAS -> mostrarMatriculas();
+            case MOSTRAR_MATRICULAS_POR_ALUMNO -> mostrarMatriculasPorAlumno();
+            case MOSTRAR_MATRICULAS_POR_CICLO_FORMATIVO -> mostrarMatriculasPorCicloFormativo();
+            case MOSTRAR_MATRICULAS_POR_CURSO_ACADEMICO -> mostrarMatriculasPorCursoAcademico();
+            case ANULAR_MATRICULA -> anularMatricula();
+        }
+    }
+
+    /*---------------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------ ALUMNOS ------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------*/
+
+    private static void insertarAlumno(){
+
+        Alumno alumno = new Alumno(Consola.leerAlumno());
+
+        controller.insertar(alumno);
+        System.out.println("Alumno insertado correctamente");
+
+    }
+
+    private static void buscarAlumno() throws OperationNotSupportedException {
+        Alumno alumno = new Alumno(Consola.getAlumnoPorDni());
+        Alumno alumnoBuscado = null;
+
+        alumnoBuscado = controller.buscar(alumno);
+        if (alumnoBuscado != null){
+            System.out.print(alumnoBuscado.imprimir());
+        }
+        else{
+            System.out.println("No existe ningun alumno con ese DNI");
+        }
+    }
+
+    private static void borrarAlumno() throws OperationNotSupportedException {
+
+        controller.borrar(Consola.getAlumnoPorDni());
+    }
+
+    private static void mostarAlumnos(){
+
+        Alumno[] alumnosMostar =  controller.getAlumnos();
+
+        if (alumnosMostar.length == 0) {
+            //throw new IllegalArgumentException("ERROR: No existen alumnos para mostrar.");
+            System.out.println("Error: No existen datos");
+        }
+
+        for (Alumno alumno : alumnosMostar) {
+            System.out.println(alumno.imprimir());
+        }
+    }
+
+    /*---------------------------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------- ASIGNATURAS ----------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------*/
+
+    private static void insertarAsignatura(){
+
+        if(cicloFormativos == null){
+            throw new IllegalArgumentException("ERROR: No existen ningun Ciclo Formativo");
+        }
+
+        Asignatura asignatura = new Asignatura(Consola.leerAsignatura(cicloFormativos));
+
+        controller.insertar(asignatura);
+        System.out.println("Asignatura insertada correctamente");
+    }
+
+    private static void buscarAsignatura(){
+
+        Asignatura asignatura = new Asignatura(Consola.getAsignaturaPorCodigo());
+        Asignatura asigBuscado = null;
+
+        asigBuscado = controller.buscar(asignatura);
+        if (asigBuscado != null){
+            System.out.println(asigBuscado.imprimir());
+        }
+        else{
+            System.out.println("No existe ninguna asignatura con ese codigo");
+        }
+    }
+
+    private static void borrarAsignatura() throws OperationNotSupportedException {
+        controller.borrar(Consola.getAsignaturaPorCodigo());
+    }
+
+    private static void mostrarAsignaturas(){
+
+        Consola.mostrarAsignautras(controller.getAsignaturas());
+    }
+
+    /*---------------------------------------------------------------------------------------------------------------*/
+    /*----------------------------------------- CICLOS FORMATIVOS ---------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------*/
+
+    private static void insertarCicloFormativo(){
+
+        CicloFormativo cicloFormativo = new CicloFormativo(Consola.leerCicloFormativo());
+
+        controller.insertar(cicloFormativo);
+        System.out.println("Ciclo Formativo insertado correctamente");
+
+    }
+
+    private static void buscarCicloFormativo (){
+
+        CicloFormativo cicloFormativo = new CicloFormativo(Consola.getCicloFormativoPorCodigo());
+        CicloFormativo cicloBuscado = null;
+
+        cicloBuscado = controller.buscar(cicloFormativo);
+        if (cicloBuscado != null){
+            System.out.println(cicloBuscado.imprimir());
+        }
+        else{
+            System.out.println("No existe ningun ciclo formativo con ese codigo");
+        }
+    }
+
+    private static void borrarCicloFormativo() throws OperationNotSupportedException {
+        controller.borrar(Consola.getCicloFormativoPorCodigo());
+    }
+
+    private static void mostarCiclosFormativos(){
+
+        Consola.mostrarCiclosFormativos(controller.getCicloformativos());
+
+    }
+
+    /*---------------------------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------- MATRICULAS -----------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------*/
+
+    private static void insertarMatricula() throws OperationNotSupportedException {
+
+        Matricula matricula = new Matricula(Consola.leerMatricula(alumnos, asignaturas));
+
+        controller.insertar(matricula);
+        System.out.println("Matricula insertado correctamente");
+    }
+
+    private static void buscarMatricula(){
+
+        Matricula matricula = new Matricula(Consola.getMatriculaPorIdentificador());
+        Matricula matriculaBuscado = null;
+
+        matriculaBuscado = controller.buscar(matricula);
+        if (matriculaBuscado != null){
+            System.out.println(matriculaBuscado.imprimir());
+        }
+        else{
+            System.out.println("No existe ninguna matricula con ese codigo");
+        }
+    }
+
+    private static void anularMatricula() throws OperationNotSupportedException {
+
+        controller.borrar(Consola.getMatriculaPorIdentificador());
+
+    }
+
+    private static void mostrarMatriculas() {
+
+        Matricula[] matriculaMostar =  controller.getMatriculas();
+
+        if (matriculaMostar.length == 0) {
+            System.out.println("Error: No existen datos");
+        }
+
+        for (Matricula matricula : matriculaMostar) {
+            if (matricula != null){
+                System.out.println(matricula.imprimir());
+            }else{
+                break;
+            }
+        }
+    }
+
+    private static void mostrarMatriculasPorAlumno(){
+
+        Alumno alumnoBuscado = Consola.getAlumnoPorDni();
+        Alumno nuevoAlumno = controller.buscar(alumnoBuscado);
+
+        if (nuevoAlumno == null) {
+            throw new IllegalArgumentException("ERROR: No existen matricula de ese alumnos para mostrar.");
+        }else{
+            Matricula[] matriculaMostrar = controller.getMatriculas(nuevoAlumno);
+            for (Matricula matricula : matriculaMostrar) {
+                if (matricula != null){
+                    System.out.println(matricula.imprimir());
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void mostrarMatriculasPorCicloFormativo(){
+
+        CicloFormativo cicloFormativoMostrar = Consola.getCicloFormativoPorCodigo();
+        Matricula[] matriculaMostrar = controller.getMatriculas(cicloFormativoMostrar);
+
+        if (matriculaMostrar.length == 0) {
+            throw new IllegalArgumentException("ERROR: No existen matriculas con ese ciclo formativo para mostrar.");
+        }
+
+        for (Matricula matricula : matriculaMostrar) {
+            if (matricula != null){
+                System.out.println(matricula.imprimir());
+            }else{
+                break;
+            }
+        }
+    }
+
+    private static void mostrarMatriculasPorCursoAcademico(){
+
+        System.out.print("Introduzca el curso academicio:");
+        String cursoAcademico = Entrada.cadena();
+
+
+        Matricula[] matriculaMostrar = controller.getMatriculas(cursoAcademico);
+
+        if (matriculaMostrar.length == 0) {
+            throw new IllegalArgumentException("ERROR: No existen matriculas con ese curso academico para mostrar.");
+        }
+
+        for (Matricula matricula : matriculaMostrar) {
+            if (matricula != null){
+                System.out.println(matricula.imprimir());
+            }else{
+                break;
+            }
+        }
+    }
+}

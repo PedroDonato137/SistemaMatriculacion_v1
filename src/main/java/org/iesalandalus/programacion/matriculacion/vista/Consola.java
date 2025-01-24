@@ -167,16 +167,15 @@ public class Consola {
 
     }
 
-    public static void mostrarCiclosFormativos(CiclosFormativos ciclosFormativos){
+    public static void mostrarCiclosFormativos(CicloFormativo[] ciclosFormativos){
 
-        CicloFormativo[] ciclosMostrar = ciclosFormativos.get();
 
-        if (ciclosMostrar.length == 0) {
+        if (ciclosFormativos.length == 0) {
             //throw new IllegalArgumentException("ERROR: No existen ciclos formativos para mostrar.");
             System.out.println("Error: No hay datos para mostrar");
         }
 
-        for (CicloFormativo cicloFormativo : ciclosMostrar) {
+        for (CicloFormativo cicloFormativo : ciclosFormativos) {
             System.out.println(cicloFormativo.imprimir());
         }
 
@@ -320,15 +319,14 @@ public class Consola {
 
     }
 
-    public static void mostrarAsignautras(Asignaturas asignaturas){
-        Asignatura[] asignaturaMostrar = asignaturas.get();
+    public static void mostrarAsignautras(Asignatura[] asignaturas){
 
-        if (asignaturaMostrar.length == 0) {
+        if (asignaturas.length == 0) {
             //throw new IllegalArgumentException("ERROR: No existen asignaturas para mostrar.");
             System.out.println("Error: No existen datos");
         }
 
-        for (Asignatura asignatura : asignaturaMostrar) {
+        for (Asignatura asignatura : asignaturas) {
             System.out.println(asignatura.imprimir());
         }
 

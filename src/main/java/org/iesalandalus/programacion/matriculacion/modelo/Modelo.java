@@ -2,9 +2,10 @@ package org.iesalandalus.programacion.matriculacion.modelo;
 
 import org.iesalandalus.programacion.matriculacion.modelo.dominio.*;
 import org.iesalandalus.programacion.matriculacion.modelo.negocio.*;
-import org.iesalandalus.programacion.matriculacion.vista.Consola;
 
 import javax.naming.OperationNotSupportedException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Modelo {
 
@@ -17,8 +18,44 @@ public class Modelo {
     private static Asignaturas asignaturas = new Asignaturas(CAPACIDAD);
     private static CiclosFormativos cicloFormativos = new CiclosFormativos(CAPACIDAD);
 
-    public static void comenzar(){
 
+    // Datos ficticios(Borrar)
+    public static void datosInicio() throws OperationNotSupportedException {
+        // Datos de prueba:
+        String cursoAcademico = "24-25";
+        //Fecha matricula
+        String fechaMatriculacion = "21/01/2025";
+        LocalDate fecha = null;
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        fecha = LocalDate.parse(fechaMatriculacion, formatoFecha);
+
+        LocalDate fechaNacimientoFicticio = LocalDate.of(1990, 6, 9); // Fecha ficticia válida (+16)
+
+        Alumno alumno1 = new Alumno("Pedro", "54119272L", "pedrodonatogarcia@gmail.com", "609822699", fechaNacimientoFicticio);
+        Asignatura[] coleccionAsignaturas1 = new Asignatura[3];
+
+        CicloFormativo cicloFicticio1 = new CicloFormativo(1001, "Informatica", Grado.GDCFGS, "Informatica", 2000);
+        Asignatura asignaturaFicticia1 = new Asignatura("1", "programacion", 100, Curso.PRIMERO, 2, EspecialidadProfesorado.INFORMATICA, cicloFicticio1);
+        Asignatura asignaturaFicticia2 = new Asignatura("2", "Base Datos", 100, Curso.PRIMERO, 2, EspecialidadProfesorado.INFORMATICA, cicloFicticio1);
+        Asignatura asignaturaFicticia3 = new Asignatura("3", "FOL", 100, Curso.PRIMERO, 2, EspecialidadProfesorado.INFORMATICA, cicloFicticio1);
+        coleccionAsignaturas1[0] = asignaturaFicticia1;
+        coleccionAsignaturas1[1] = asignaturaFicticia2;
+        coleccionAsignaturas1[2] = asignaturaFicticia3;
+
+        Matricula matricula1= new Matricula(1, cursoAcademico, fecha, alumno1, coleccionAsignaturas1);
+
+        alumnos.insertar(alumno1);
+        cicloFormativos.insertar(cicloFicticio1);
+        asignaturas.insertar(asignaturaFicticia1);
+        asignaturas.insertar(asignaturaFicticia2);
+        asignaturas.insertar(asignaturaFicticia3);
+        matriculas.insertar(matricula1);
+
+    }
+
+
+    public static void comenzar() throws OperationNotSupportedException {
+        datosInicio();
     }
 
     public static void terminar(){
