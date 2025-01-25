@@ -51,10 +51,10 @@ public class CiclosFormativos {
         indice = buscarIndice(cicloFormativo);
 
         if (indice != -1) {
-            System.out.println("ERROR: Ya existe ese ciclo formativo");
+            throw new IllegalArgumentException("ERROR: Ya existe ese ciclo formativo");
         } else {
             if (capacidadSuperada(tamano)){
-                System.out.println("ERROR: No se aceptan mas ciclos formativos");
+                throw new IllegalArgumentException("ERROR: No se aceptan mas ciclos formativos");
             }else{
                 for (int i = 0; i < coleccionCiclosFormativos.length; i++)
                 {
@@ -116,8 +116,7 @@ public class CiclosFormativos {
         }
         int indice = buscarIndice(cicloFormativo);
         if (indice == -1) {
-            //throw new OperationNotSupportedException("ERROR: No existe ningún ciclo formativo como el indicado.");
-            System.out.println("Error: No existe ese ciclo formativo para borrar");
+            throw new OperationNotSupportedException("ERROR: No existe ningún ciclo formativo como el indicado.");
         } else {
             desplazarUnaPosicionHaciaIzquierda(indice);
             System.out.println("Ciclo formativo borrado correctamente");

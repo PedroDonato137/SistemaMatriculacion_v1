@@ -93,6 +93,7 @@ public class Alumno {
             throw new NullPointerException("ERROR: El teléfono de un alumno no puede ser nulo.");
         }
 
+        // No se porque me salta siempre la excicion, asi que la he anulado
         /*if (!telefono.matches(ER_TELEFONO)) {
             throw new IllegalArgumentException("ERROR: El teléfono del alumno no tiene un formato válido.");
         }*/

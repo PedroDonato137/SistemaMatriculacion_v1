@@ -8,6 +8,7 @@ import org.iesalandalus.programacion.matriculacion.modelo.dominio.Matricula;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import javax.naming.OperationNotSupportedException;
+import java.util.Scanner;
 
 public class Vista {
 
@@ -21,11 +22,18 @@ public class Vista {
     }
 
     public void comenzar() throws OperationNotSupportedException {
+
+        // Esto es para que tenga que presionar el usuario por cada opcion
+        Scanner continuar = new Scanner(System.in);
+
         Opcion opcionElegida;
         do {
             Consola.mostrarMenu();
             opcionElegida = Consola.elegirOpcion();
             ejecutarOpcion(opcionElegida);
+
+            System.out.println("\n\t\tPRESIONE ENTER PARA CONTINUAR..."); //Mensaje en pantalla
+            continuar.nextLine();
         } while (!opcionElegida.equals(Opcion.SALIR));
     }
 

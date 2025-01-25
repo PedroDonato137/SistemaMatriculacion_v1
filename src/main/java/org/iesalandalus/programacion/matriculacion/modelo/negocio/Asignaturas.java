@@ -67,8 +67,7 @@ public class Asignaturas {
         }
         int indice = buscarIndice(asignatura);
         if (indice == -1) {
-            //throw new OperationNotSupportedException("ERROR: No existe ningún alumno como el indicado.");
-            System.out.println("Error: No existe esa asignatura para borrar");
+            throw new OperationNotSupportedException("ERROR: No existe ningún alumno como el indicado.");
         } else {
             desplazarUnaPosicionHaciaIzquierda(indice);
             System.out.println("asignatura borrada correctamente");
@@ -114,10 +113,10 @@ public class Asignaturas {
         indice = buscarIndice(asignatura);
 
         if (indice != -1) {
-            System.out.println("ERROR: Ya existe una asignatura con ese codigo.");
+            throw new IllegalArgumentException("ERROR: Ya existe una asignatura con ese codigo.");
         } else {
             if (capacidadSuperada(tamano)){
-                System.out.println("ERROR: No se aceptan mas asignaturas");
+                throw new IllegalArgumentException("ERROR: No se aceptan mas asignaturas");
             }else{
                 for (int i = 0; i < coleccionAsignaturas.length; i++)
                 {

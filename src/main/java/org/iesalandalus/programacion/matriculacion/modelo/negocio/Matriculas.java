@@ -150,8 +150,7 @@ public class Matriculas {
         }
         int indice = buscarIndice(matricula);
         if (tamanoSuperado(indice)) {
-            //throw new OperationNotSupportedException("ERROR: No existe ninguna matrícula de ese alumno");
-            System.out.println("Error: No existe esa matricula para borrar");
+            throw new OperationNotSupportedException("ERROR: No existe ninguna matrícula de ese alumno");
         } else {
             desplazarUnaPosicionHaciaIzquierda(indice);
             System.out.println("Matricula borrada correctamente");
@@ -196,10 +195,10 @@ public class Matriculas {
         indice = buscarIndice(matricula);
 
         if (indice != -1) {
-            System.out.println("ERROR: Ya existe una matricula con ese codigo.");
+            throw new IllegalArgumentException("ERROR: Ya existe una matricula con ese codigo.");
         } else {
             if (capacidadSuperada(tamano)){
-                System.out.println("ERROR: No se aceptan mas matriculas");
+                throw new IllegalArgumentException("ERROR: No se aceptan mas matriculas");
             }else{
                 for (int i = 0; i < coleccionMatriculas.length; i++)
                 {
