@@ -20,5 +20,6 @@ public class MainApp {
         controlador.comenzar();
 
         System.out.println("Cerramos la aplicación...");
+        System.out.println("Hasta luego lucas");
     }
 }

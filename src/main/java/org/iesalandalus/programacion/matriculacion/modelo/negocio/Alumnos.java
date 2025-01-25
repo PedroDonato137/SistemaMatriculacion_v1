@@ -52,10 +52,10 @@ public class Alumnos {
         indice = buscarIndice(alumno);
 
         if (indice != -1) {
-            System.out.println("ERROR: Ya existe un alumno con ese dni.");
+            throw new IllegalArgumentException("ERROR: Ya existe un alumno con ese dni.");
         } else {
             if (capacidadSuperada(tamano)){
-                System.out.println("ERROR: No se aceptan mas alumnos");
+                throw new IllegalArgumentException("ERROR: No se aceptan mas alumnos");
             }else{
                 for (int i = 0; i < coleccionAlumnos.length; i++)
                 {
@@ -118,8 +118,7 @@ public class Alumnos {
         }
         int indice = buscarIndice(alumno);
         if (indice == -1) {
-            //throw new OperationNotSupportedException("ERROR: No existe ningún alumno como el indicado.");
-            System.out.println("Error: No existe ese alumno para borrar");
+            throw new OperationNotSupportedException("ERROR: No existe ningún alumno como el indicado.");
         } else {
             desplazarUnaPosicionHaciaIzquierda(indice);
             System.out.println("Alumno borrado correctamente");

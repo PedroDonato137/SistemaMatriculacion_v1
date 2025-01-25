@@ -25,7 +25,7 @@ public class Consola {
         do {
             System.out.print("Selecciona que opción quiere realizar: ");
             ordinalOpcion = Entrada.entero();
-        } while (ordinalOpcion < 0 || ordinalOpcion > Opcion.values().length);
+        } while (ordinalOpcion < 0 || ordinalOpcion >= Opcion.values().length);
 
         return Opcion.values()[ordinalOpcion];
     }
@@ -100,7 +100,7 @@ public class Consola {
             try {
                 fecha = LocalDate.parse(fechaLeida, formatoFecha);
             } catch (DateTimeParseException e) {
-                System.out.println("Fecha incorrecta");
+                throw new IllegalArgumentException("ERROR: Fecha incorrecta");
             }
         }
 
@@ -169,8 +169,7 @@ public class Consola {
 
 
         if (ciclosFormativos.length == 0) {
-            //throw new IllegalArgumentException("ERROR: No existen ciclos formativos para mostrar.");
-            System.out.println("Error: No hay datos para mostrar");
+            throw new IllegalArgumentException("ERROR: No existen ciclos formativos para mostrar.");
         }
 
         for (CicloFormativo cicloFormativo : ciclosFormativos) {
@@ -246,12 +245,8 @@ public class Consola {
         Curso cursoAsignatura;
         int horasDesdobleAsignatura;
         EspecialidadProfesorado especialidadProfesoradoAsignatura;
-        CicloFormativo cicloFormativoAsignatura;
 
         Asignatura nuevaAsignatura = null;
-
-        //Variables auxiliales
-        boolean existeCiclo = false;
 
         do {
             System.out.print("Introduce el Codigo de la asignatura: ");
@@ -308,8 +303,7 @@ public class Consola {
     public static void mostrarAsignautras(Asignatura[] asignaturas){
 
         if (asignaturas.length == 0) {
-            //throw new IllegalArgumentException("ERROR: No existen asignaturas para mostrar.");
-            System.out.println("Error: No existen datos");
+            throw new IllegalArgumentException("ERROR: No existen asignaturas para mostrar.");
         }
 
         for (Asignatura asignatura : asignaturas) {
@@ -329,8 +323,10 @@ public class Consola {
             nuevaAsignaturas = getAsignaturaPorCodigo();
             for(Asignatura asignatura : asignaturasRegistradas){
                 if(nuevaAsignaturas.getCodigo().equalsIgnoreCase(asignatura.getCodigo())){
-                    asignaturasMatricula[i] = nuevaAsignaturas;
-                    i++;
+                    if (!asignaturaYaMatriculada(asignaturasMatricula, nuevaAsignaturas)) {
+                        asignaturasMatricula[i] = nuevaAsignaturas;
+                        i++;
+                    }
                 }
             }
         } while (i < 3);
@@ -357,12 +353,11 @@ public class Consola {
         return false; // La asignatura no está en la lista.
     }
 
-    public static Matricula leerMatricula(Alumno alumno, Asignatura[] Asignaturas) throws OperationNotSupportedException {
+    public static Matricula leerMatricula(Alumno alumno, Asignatura[] Asignaturas){
 
         int idMatricula;
         String cursoAcademico;
         LocalDate fechaMatriculacion;
-        Asignatura[] coleccionAsignaturas = new Asignatura[3];
 
         Matricula nuevaMatricula = null;
 

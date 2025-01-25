@@ -82,7 +82,7 @@ public class Vista {
 
     }
 
-    private static void buscarAlumno() throws OperationNotSupportedException {
+    private static void buscarAlumno() {
         Alumno alumno = new Alumno(Consola.getAlumnoPorDni());
         Alumno alumnoBuscado = null;
 
@@ -91,7 +91,7 @@ public class Vista {
             System.out.print(alumnoBuscado.imprimir());
         }
         else{
-            System.out.println("No existe ningun alumno con ese DNI");
+            throw new IllegalArgumentException("No existe ningun alumno con ese DNI");
         }
     }
 
@@ -105,8 +105,7 @@ public class Vista {
         Alumno[] alumnosMostar =  controller.getAlumnos();
 
         if (alumnosMostar.length == 0) {
-            //throw new IllegalArgumentException("ERROR: No existen alumnos para mostrar.");
-            System.out.println("Error: No existen datos");
+            throw new IllegalArgumentException("ERROR: No existen alumnos para mostrar.");
         }
 
         for (Alumno alumno : alumnosMostar) {
@@ -127,7 +126,7 @@ public class Vista {
             controller.insertar(asignatura);
             System.out.println("Asignatura insertada correctamente");
         }else{
-            System.out.println("No se ha podido ingresar la asignatura");
+            throw new IllegalArgumentException("ERROR: No se ha podido ingresar la asignatura");
         }
     }
 
@@ -141,7 +140,7 @@ public class Vista {
             System.out.println(asigBuscado.imprimir());
         }
         else{
-            System.out.println("No existe ninguna asignatura con ese codigo");
+            throw new IllegalArgumentException("ERROR:: No existe ninguna asignatura con ese codigo");
         }
     }
 
@@ -176,7 +175,7 @@ public class Vista {
             System.out.println(cicloBuscado.imprimir());
         }
         else{
-            System.out.println("No existe ningun ciclo formativo con ese codigo");
+            throw new IllegalArgumentException("ERROR: No existe ningun ciclo formativo con ese codigo");
         }
     }
 
@@ -224,7 +223,7 @@ public class Vista {
             System.out.println(matriculaBuscado.imprimir());
         }
         else{
-            System.out.println("No existe ninguna matricula con ese codigo");
+            throw new IllegalArgumentException("ERROR: No existe ninguna matricula con ese codigo");
         }
     }
 
@@ -239,7 +238,7 @@ public class Vista {
         Matricula[] matriculaMostar =  controller.getMatriculas();
 
         if (matriculaMostar.length == 0) {
-            System.out.println("Error: No existen datos");
+            throw new IllegalArgumentException("ERROR: No existen datos");
         }
 
         for (Matricula matricula : matriculaMostar) {

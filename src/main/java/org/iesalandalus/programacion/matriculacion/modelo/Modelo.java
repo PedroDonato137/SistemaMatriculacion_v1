@@ -21,7 +21,7 @@ public class Modelo {
 
 
 
-    // Datos ficticios(Borrar)
+    // Datos ficticios de inicio para no estar todo el rato ingresando datos(Borrar)
     public static void datosInicio() throws OperationNotSupportedException {
         // Datos de prueba:
         String cursoAcademico = "24-25";
@@ -55,13 +55,12 @@ public class Modelo {
 
     }
 
-
     public void comenzar() throws OperationNotSupportedException {
         alumnos = new Alumnos(CAPACIDAD);
         matriculas = new Matriculas(CAPACIDAD);
         asignaturas = new Asignaturas(CAPACIDAD);
         cicloFormativos = new CiclosFormativos(CAPACIDAD);
-        datosInicio();
+        datosInicio(); // Datos ficticios
     }
 
     public static void terminar(){
@@ -76,7 +75,6 @@ public class Modelo {
 
         try {
             alumnos.insertar(alumno);
-            System.out.println("Alumno insertado correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo insertar el alumno");
         }
@@ -97,7 +95,6 @@ public class Modelo {
 
         try {
             alumnos.borrar(alumno);
-            System.out.println("Alumno borrado correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo borrar el alumno");
         }
@@ -122,7 +119,6 @@ public class Modelo {
 
         try {
             asignaturas.insertar(asignatura);
-            System.out.println("Asignatura insertada correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo insertar la asignatura");
         }
@@ -143,7 +139,6 @@ public class Modelo {
 
         try {
             asignaturas.borrar(asignatura);
-            System.out.println("Asignatura borrada correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo borrar la asignatura");
         }
@@ -168,7 +163,6 @@ public class Modelo {
 
         try {
             cicloFormativos.insertar(cicloFormativo);
-            System.out.println("Ciclo formativo insertada correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo insertar el ciclo formativo");
         }
@@ -189,7 +183,6 @@ public class Modelo {
 
         try {
             cicloFormativos.borrar(cicloFormativo);
-            System.out.println("Ciclo formativo borrado correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo borrar el ciclo formativo");
         }
@@ -214,7 +207,6 @@ public class Modelo {
 
         try {
             matriculas.insertar(matricula);
-            System.out.println("Matricula insertada correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo insertar la matricula");
         }
@@ -235,7 +227,6 @@ public class Modelo {
 
         try {
             matriculas.borrar(matricula);
-            System.out.println("Matricula borrada correctamente");
         } catch (OperationNotSupportedException e) {
             throw new IllegalArgumentException("ERROR: No se pudo borrar la matricula");
         }
